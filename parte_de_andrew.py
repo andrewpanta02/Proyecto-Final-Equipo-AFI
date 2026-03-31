@@ -1,16 +1,24 @@
-# Voy a crear un a funcion para hacer los calculos
 def calcular_transferencia(pais_destino, monto_usd):
-# Esto lo aprendimos en la clase pasada para poner la fecha 
     import random
     from datetime import datetime
 
-#Aca estaran las tasa de cambio de monedas de cada pais que elijamos, quizas con un if
+    # Seleccionar tasa
+    if pais_destino == "Mexico":
+        tasa = 17.10
+    elif pais_destino == "Colombia":
+        tasa = 3920.00
+    elif pais_destino == "Guatemala":
+        tasa = 7.80
+    else:
+        tasa = 1.0
 
-
-#Aca estaran los calculos del monto que el usario ingre, la tasa de cambio y el costo dl servicio
+    # Cálculos
     monto_convertido = monto_usd * tasa
-    costo_servicio = (monto_usd * 0.05)
+    costo_servicio = (monto_usd * 0.03) + 5.00
     total_a_pagar = monto_usd + costo_servicio
 
-#Aqui nos debe dar el ID y la fecha
-id_transferencia = random.randint(100000, 999999)
+    # ID y fecha
+    id_transferencia = random.randint(100000, 999999)
+    fecha = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+
+    return monto_convertido, costo_servicio, total_a_pagar, id_transferencia, fecha
