@@ -1,7 +1,16 @@
-def calcular_transferencia(pais_destino, monto_usd):
-    import random
-    from datetime import datetime
+import random
+from datetime import datetime
 
+def bienvenida():
+    print("Bienvenido al programa de envío de remesas a Latinoamérica.\n")
+    nombre_remitente = input("Ingrese su nombre completo: ")
+    nombre_destinatario = input("Ingrese el nombre completo del destinatario: ")
+    pais_destino = input("Ingrese el país de destino (Mexico, Colombia, Peru): ")    
+    monto_enviar = float(input("Ingrese el monto a enviar en USD: "))
+    
+    return nombre_remitente, nombre_destinatario, pais_destino, monto_enviar
+
+def calcular_transferencia(pais_destino, monto_usd):
     # Seleccionar tasa
     if pais_destino == "Mexico":
         tasa = 17.10
@@ -11,7 +20,7 @@ def calcular_transferencia(pais_destino, monto_usd):
         tasa = 7.80
     else:
         tasa = 1.0
-
+    
     # Cálculos
     monto_convertido = monto_usd * tasa
     costo_servicio = (monto_usd * 0.03) + 5.00
