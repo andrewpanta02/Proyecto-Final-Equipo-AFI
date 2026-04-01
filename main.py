@@ -1,5 +1,5 @@
 """
-estad
+Esta es una aplicación de consola para enviar remesas a Latinoamérica. El programa solicita al usuario que ingrese su nombre, el nombre del destinatario, el país de destino y el monto a enviar en USD. Luego, calcula el monto convertido según la tasa de cambio del país de destino, el costo del servicio y el total a pagar. Finalmente, muestra un resumen de la transacción y guarda un registro en un archivo de texto.
 """
 
 import random
