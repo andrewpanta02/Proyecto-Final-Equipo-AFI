@@ -1,22 +1,43 @@
-"""
-Esta es una aplicación de consola para enviar remesas a Latinoamérica. El programa solicita al usuario que ingrese su nombre, el nombre del destinatario, el país de destino y el monto a enviar en USD. Luego, calcula el monto convertido según la tasa de cambio del país de destino, el costo del servicio y el total a pagar. Finalmente, muestra un resumen de la transacción y guarda un registro en un archivo de texto.
-"""
-
+import datetime
 import random
-from datetime import datetime
-#Esta funcion es la que se encarga de ejecutar todo el programa, desde la bienvenida
-def bienvenida():
-    print("Bienvenido al programa de envío de remesas a Latinoamérica.\n")
-    nombre_remitente = input("Ingrese su nombre completo: ")
-    nombre_destinatario = input("Ingrese el nombre completo del destinatario: ")
-    pais_destino = input("Ingrese el país de destino (Mexico, Colombia, Peru): ")    
-    monto_enviar = float(input("Ingrese el monto a enviar en USD: "))
-    
-    return nombre_remitente, nombre_destinatario, pais_destino, monto_enviar
-    
-def calcular_monto(pais_destino, monto_usd):
-    #Funcion para calcular el monto a mandar dependiendo de cada pais con un if 
-    # Seleccionar tasa
+import time
+
+# --- CONSTANTES ---
+COMISION_FIJA = 5.00
+IMPUESTO_TRANSACCION = 0.03
+
+def ejecutar_afi():
+    print("========================================")
+    print("      --- BIENVENIDO A AFI ---    ")
+    print("      Configuración: Estados Unidos     ")
+    print("========================================\n")
+
+    # --- PRIMERA PARTE: ENTRADA Y VALIDACIÓN ---
+    while True:
+        nombre_remitente = input("Ingrese el nombre del remitente: ").strip()
+        if not nombre_remitente:
+            print("Error: El nombre es obligatorio.")
+        else:
+            break
+
+    print("\nPaíses disponibles: Mexico, Colombia, España, Guatemala")
+    pais_destino = input("Ingrese el país de destino: ").capitalize().strip()
+
+    while True:
+        try:
+            monto_usd = float(input("Ingrese el monto a enviar (USD): "))
+            if monto_usd > 0:
+                break
+            else:
+                print("Error: El monto debe ser un número positivo.")
+        except ValueError:
+            print("Error: Por favor, ingrese un número válido.")
+
+    # --- SEGUNDA PARTE: LÓGICA Y CÁLCULOS ---
+    print("\nProcesando cálculos financieros...")
+    time.sleep(1) # Simulación de procesamiento
+
+    # Selección de tasa según país
     if pais_destino == "Mexico":
         tasa = 17.10
     elif pais_destino == "Colombia":
@@ -24,20 +45,19 @@ def calcular_monto(pais_destino, monto_usd):
     elif pais_destino == "Guatemala":
         tasa = 7.80
     else:
-        tasa = 1.0
-    
-    # Cálcula la tasa de cada pais que se ingreso para calcular el monto que se envia
+        tasa = 1.0  # Caso para España o países en USD
+        print("Nota: Se aplicará tasa 1:1 o moneda base.")
+
+    # Operaciones Matemáticas
     monto_convertido = monto_usd * tasa
-    costo_servicio = (monto_usd * 0.03) + 5.00
+    costo_servicio = (monto_usd * IMPUESTO_TRANSACCION) + COMISION_FIJA
     total_a_pagar = monto_usd + costo_servicio
+    
+    # Generación de metadatos
+    id_transferencia = f"AFI-{random.randint(100000, 999999)}"
+    fecha_actual = datetime.datetime.now()
 
-    # esta es para saber la fecha en que se envio y genera un id para el usuario
-    id_transferencia = random.randint(100000, 999999)
-    fecha = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-
-    return monto_convertido, costo_servicio, total_a_pagar, id_transferencia, fecha
-def ejecutar_afi():
-    #aca lo que imprime en pantalla el resumen de la transaccion con los datos que se ingresaron y los calculos que se hicieron
+    # --- TERCERA PARTE: SALIDA Y ALMACENAMIENTO ---
     print("\n" + "*"*40)
     print("         RESUMEN DE TRANSACCIÓN")
     print("*"*40)
@@ -53,7 +73,7 @@ def ejecutar_afi():
     print(f"TOTAL DEBITADO:   ${total_a_pagar:,.2f} USD")
     print("*"*40)
 
- #Aqui se guarda el registro de la transaccion en un archivo de texto para llevar un control de las transferencias realizadas, si no se puede escribir en el archivo se muestra un mensaje de error.
+    # Guardado en archivo LOG
     try:
         with open("log_transferencias.txt", "a", encoding="utf-8") as log:
             log.write(f"\n--- REGISTRO {id_transferencia} ---\n")
@@ -61,14 +81,12 @@ def ejecutar_afi():
             log.write(f"Remitente: {nombre_remitente} | Destino: {pais_destino}\n")
             log.write(f"Monto USD: ${monto_usd} | Total Pagado: ${total_a_pagar}\n")
             log.write("-" * 30 + "\n")
-        print("\n✅ Registro guardado exitosamente en log_transferencias.txt")
+        print("\n Registro guardado exitosamente en log_transferencias.txt")
     except IOError:
-        print("\n❌ Error crítico: No se pudo escribir en el archivo de registro.")
+        print("\n Error crítico: No se pudo escribir en el archivo de registro.")
 
     print("\nGracias por confiar en AFI. ¡Feliz día!")
 
-#Y esto es para ejecutar el programa, llamando a la funcion de bienvenida y luego a la funcion de calculos y resumen de la transaccion
+# Ejecución del programa
 if __name__ == "__main__":
-    bienvenida() 
-    #calcular_monto()
-    ejecutar_afi()
+    ejecutar_afi() 
