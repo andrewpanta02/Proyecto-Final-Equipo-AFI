@@ -4,3 +4,9 @@ Fecha: 2026-04-07 18:05:59.829631
 Remitente: ola | Destino: Peru
 Monto USD: $293.0 | Total Pagado: $306.79
 ------------------------------
+
+--- REGISTRO AFI-612279 ---
+Fecha: 2026-04-12 14:39:16.973851
+Remitente: Fredy | Destino: Guatemala
+Monto USD: $100.0 | Total Pagado: $108.0
+-----------------------------------
